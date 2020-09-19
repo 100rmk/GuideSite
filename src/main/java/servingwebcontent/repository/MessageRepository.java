@@ -1,4 +1,4 @@
-package servingwebcontent.messagerepository;
+package servingwebcontent.repository;
 
 import org.springframework.data.repository.CrudRepository;
 import servingwebcontent.domain.Message;

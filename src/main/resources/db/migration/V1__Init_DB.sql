@@ -3,6 +3,10 @@ create table hibernate_sequence
     next_val bigint
 ) engine = InnoDB;
 
+# Resolve error
+# could not read a hi value - you need to populate the table: hibernate_sequence
+INSERT INTO hibernate_sequence (next_val) VALUES (0);
+
 create table message
 (
     id       bigint not null,
@@ -25,7 +29,7 @@ create table users
     id              bigint not null,
     activation_code varchar(255),
     active          bit    not null default 0,
-    email           varchar(255),
+    email           varchar(255) not null,
     password        varchar(255) not null,
     username        varchar(255) not null,
     primary key (id)
