@@ -1,5 +1,6 @@
 package servingwebcontent.service;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -19,6 +20,9 @@ public class UserService implements UserDetailsService {
     private final UserRepository userRepository;
     private final MailSender mailSender;
     private final PasswordEncoder passwordEncoder;
+
+    @Value("${hostname}")
+    private String hostname;
 
     public UserService(UserRepository userRepository, MailSender mailSender, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
@@ -60,8 +64,9 @@ public class UserService implements UserDetailsService {
     private void sendMessage(User user) {
         if (!StringUtils.isEmpty(user.getEmail())) {
             String message = String.format("Hello, %s \n" +
-                            "Welcome to my project. Please, visit next link http://localhost:8080/activate/%s",
+                            "Welcome to my project. Please, visit next link http://%s/activate/%s",
                     user.getUsername(),
+                    hostname,
                     user.getActivationCode());
 
             mailSender.send(user.getEmail(), "Activation code", message);
