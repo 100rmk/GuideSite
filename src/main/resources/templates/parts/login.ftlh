@@ -75,12 +75,13 @@
 </#macro>
 
 <#macro logout>
-        <form action="/login">
-            <button class="btn btn-primary mx-2" type="submit">Log in</button>
-            <input type="hidden" name="_csrf" value="${_csrf.token}"/>
-        </form>
-        <form action="/logout" method="post">
-            <button class="btn btn-primary" type="submit">Sign Out</button>
-            <input type="hidden" name="_csrf" value="${_csrf.token}"/>
-        </form>
+    <#include "security.ftlh" >
+    <form action="/logout" method="post">
+        <button class="btn btn-primary" type="submit"><#if user??>
+                Sign Out
+            <#else> Log in
+            </#if>
+        </button>
+        <input type="hidden" name="_csrf" value="${_csrf.token}"/>
+    </form>
 </#macro>
