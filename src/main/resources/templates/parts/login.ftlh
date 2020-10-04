@@ -75,8 +75,12 @@
 </#macro>
 
 <#macro logout>
-    <form action="/logout" method="post">
-        <button class="btn btn-primary" type="submit">Sign Out</button>
-        <input type="hidden" name="_csrf" value="${_csrf.token}"/>
-    </form>
+        <form action="/login">
+            <button class="btn btn-primary mx-2" type="submit">Log in</button>
+            <input type="hidden" name="_csrf" value="${_csrf.token}"/>
+        </form>
+        <form action="/logout" method="post">
+            <button class="btn btn-primary" type="submit">Sign Out</button>
+            <input type="hidden" name="_csrf" value="${_csrf.token}"/>
+        </form>
 </#macro>
