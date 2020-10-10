@@ -9,7 +9,7 @@ INSERT INTO hibernate_sequence (next_val) VALUES (0);
 
 create table message
 (
-    id       bigint not null,
+    id       bigint not null auto_increment,
     filename varchar(255),
     tag      varchar(255) not null,
     text     varchar(2048) not null,
