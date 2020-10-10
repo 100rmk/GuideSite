@@ -1,6 +1,10 @@
 package servingwebcontent.controller;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -41,17 +45,22 @@ public class MainController {
     }
 
     @GetMapping("/main")
-    public String main(@RequestParam(required = false, defaultValue = "") String search, Model model) {
+    public String main(
+            @RequestParam(required = false, defaultValue = "") String search,
+            Model model,
+            @PageableDefault(sort = {"id"}, direction = Sort.Direction.DESC) Pageable pageable
+    ) {
 
-        Iterable<Message> messages;
+        Page<Message> page;
 
         if (search != null && !search.isEmpty()) {
-            messages = messageRepository.findByTag(search);
+            page = messageRepository.findByTag(search, pageable);
         } else {
-            messages = messageRepository.findAll();
+            page = messageRepository.findAll(pageable);
         }
 
-        model.addAttribute("messages", messages);
+        model.addAttribute("page", page);
+        model.addAttribute("url", "/main");
         model.addAttribute("search", search);
         return "main";
     }
